@@ -1,4 +1,5 @@
-import { ElementHandle, Page, BoundingBox } from 'puppeteer'
+// Orignal src: https://github.com/Xetera/ghost-cursor
+import { ElementHandle, Page, BoundingBox, Frame } from 'puppeteer'
 import { Vector, bezierCurve, direction, magnitude, origin, overshoot } from './math'
 export { default as installMouseHelper } from './mouse-helper'
 
@@ -7,8 +8,8 @@ interface MoveOptions extends BoxOptions { readonly waitForSelector: number, rea
 interface ClickOptions extends MoveOptions { readonly waitForClick: number }
 export interface GhostCursor {
   toggleRandomMove: (random: boolean) => void
-  click: (selector?: string | ElementHandle, options?: ClickOptions) => Promise<void>
-  move: (selector: string | ElementHandle, options?: MoveOptions) => Promise<void>
+  click: (selector?: string | ElementHandle, options?: ClickOptions, frame?: Frame) => Promise<void>
+  move: (selector: string | ElementHandle, options?: MoveOptions, frame?: Frame) => Promise<void>
   moveTo: (destination: Vector) => Promise<void>
 }
 
@@ -165,11 +166,11 @@ export const createCursor = (page: Page, start: Vector = origin, performRandomMo
       moving = !random
     },
 
-    async click (selector?: string | ElementHandle, options?: ClickOptions): Promise<void> {
+    async click (selector?: string | ElementHandle, options?: ClickOptions, frame?: Frame): Promise<void> {
       actions.toggleRandomMove(false)
 
       if (selector !== undefined) {
-        await actions.move(selector, options)
+        await actions.move(selector, options, frame)
         actions.toggleRandomMove(false)
       }
 
@@ -191,7 +192,7 @@ export const createCursor = (page: Page, start: Vector = origin, performRandomMo
 
       actions.toggleRandomMove(true)
     },
-    async move (selector: string | ElementHandle, options?: MoveOptions): Promise<void> {
+    async move (selector: string | ElementHandle, options?: MoveOptions, frame?: Frame): Promise<void> {
       actions.toggleRandomMove(false)
       let elem: ElementHandle | null = null
       if (typeof selector === 'string') {
@@ -201,14 +202,22 @@ export const createCursor = (page: Page, start: Vector = origin, performRandomMo
               timeout: options.waitForSelector
             })
           }
-          [elem] = await page.$x(selector)
+          if (frame !== null && frame !== undefined) {
+            [elem] = await frame.$x(selector)
+          } else {
+            [elem] = await page.$x(selector)
+          }
         } else {
           if (options?.waitForSelector !== undefined) {
             await page.waitForSelector(selector, {
               timeout: options.waitForSelector
             })
           }
-          elem = await page.$(selector)
+          if (frame !== null && frame !== undefined) {
+            elem = await frame.$(selector)
+          } else {
+            elem = await page.$(selector)
+          }
         }
         if (elem === null) {
           throw new Error(

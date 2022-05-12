@@ -1,8 +1,8 @@
 {
   "name": "ghost-cursor",
   "version": "1.1.10",
-  "description": "Move your mouse like a human in puppeteer or generate realistic movements on any 2D plane",
-  "repository": "https://github.com/Xetera/ghost-cursor",
+  "description": "Move your mouse like a human in puppeteer or generate realistic movements on any 2D plane, this version has support for iframes",
+  "repository": "https://github.com/shahzain345/ghost-cursor",
   "main": "lib/spoof.js",
   "types": "lib/spoof.d.ts",
   "scripts": {
@@ -16,7 +16,7 @@
     "mouse-movement",
     "botting"
   ],
-  "author": "Xetera",
+  "author": "Shahzain",
   "license": "ISC",
   "files": [
     "lib/**/*"
