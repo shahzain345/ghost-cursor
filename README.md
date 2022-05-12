@@ -10,18 +10,18 @@ like the definitely-not-robot you are.
 ## Installation
 
 ```sh
-yarn add ghost-cursor
+yarn add ghost-cursor-frames
 ```
 or with npm
 ```sh
-npm install ghost-cursor
+npm install ghost-cursor-frames
 ```
 
 ## Usage
 Generating movement data between 2 coordinates.
 
 ```js
-import { path } from "ghost-cursor"
+import { path } from "ghost-cursor-frames"
 
 const from = { x: 100, y: 100 }
 const to = { x: 600, y: 700 }
@@ -43,7 +43,7 @@ const route = path(from, to)
 Usage with puppeteer:
 
 ```js
-import { createCursor } from "ghost-cursor"
+import { createCursor } from "ghost-cursor-frames"
 import puppeteer from "puppeteer"
 
 const run = async (url) => {
@@ -63,7 +63,7 @@ const run = async (url) => {
 Usage with iframes:
 
 ```js
-import { createCursor } from "ghost-cursor"
+import { createCursor } from "ghost-cursor-frames"
 import puppeteer from "puppeteer"
 
 const run = async (url) => {
@@ -76,9 +76,6 @@ const run = async (url) => {
   const elementHandle = await page.$("frameSelector");
   const frame = await elementHandle.contentFrame();
   await cursor.click(selector, {}, frame)
-  // shorthand for
-  // await cursor.move(selector)
-  // await cursor.click()
 }
 ```
 
