@@ -60,6 +60,28 @@ const run = async (url) => {
 }
 ```
 
+Usage with iframes:
+
+```js
+import { createCursor } from "ghost-cursor"
+import puppeteer from "puppeteer"
+
+const run = async (url) => {
+  const selector = "#sign-up button"
+  const browser = await puppeteer.launch({ headless: false });
+  const page = browser.newPage()
+  const cursor = createCursor(page)
+  await page.goto(url)
+  await page.waitForSelector(selector)
+  const elementHandle = await page.$("frameSelector");
+  const frame = await elementHandle.contentFrame();
+  await cursor.click(selector, {}, frame)
+  // shorthand for
+  // await cursor.move(selector)
+  // await cursor.click()
+}
+```
+
 ### Puppeteer-specific behavior
 * `cursor.move()` will automatically overshoot or slightly miss and re-adjust for elements that are too far away
 from the cursor's starting point.
