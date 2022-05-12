@@ -93,4 +93,5 @@ When calculating how fast the mouse should be moving we use <a href="https://en.
 to determine the amount of points we should be returning relative to the width of the element being clicked on and the distance
 between the mouse and the object.
 ## Note:
-This is a fork of (Ghost-Cursor)[https://github.com/Xetera/ghost-cursor] with support for iframes
+This is a fork of [Ghost Cursor](https://github.com/Xetera/ghost-cursor)
+with support for iframes
