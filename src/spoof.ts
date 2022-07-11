@@ -83,7 +83,6 @@ const getElementBox = async (page: Page, element: ElementHandle, relativeToMainF
     }
     return elementBox
   } catch (_) {
-    console.debug('Quads not found, trying regular boundingBox')
     return await element.boundingBox()
   }
 }
